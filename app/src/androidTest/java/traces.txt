@@ -1,0 +1,77 @@
+GET /api/getmessage.php?lang=fr HTTP/1.1\\r\\n
+GET //lines_fr.json HTTP/1.1\\r\\n
+GET /api/getclosestops.php?1=1&latitude=50.789339&longitude=4.338774&lang=fr HTTP/1.1\\r\\n
+
+<?xml version="1.0" encoding="UTF-8"?>
+<halts>
+	<halt>
+		<id>2703</id>
+		<name>PAPENKASTEEL</name>
+		<latitude>50.79036</latitude>
+		<longitude>4.34064</longitude>
+		<destinations>
+			<destination>
+				<line>60</line>
+				<name>AMBIORIX</name>
+				<destcode>2</destcode>
+				<mode>B</mode>
+			</destination>
+		</destinations>
+	</halt>
+	<halt>
+		<id>2702</id>
+		<name>GROELSTVELD</name>
+		<latitude>50.78975</latitude>
+		<longitude>4.33783</longitude>
+		<destinations>
+			<destination>
+				<line>60</line>
+				<name>AMBIORIX</name>
+				<destcode>2</destcode>
+				<mode>B</mode>
+			</destination>
+		</destinations>
+	</halt>
+	<halt>
+		<id>2771</id>
+		<name>GROELSTVELD</name>
+		<latitude>50.78991</latitude>
+		<longitude>4.33881</longitude>
+		<destinations>
+			<destination>
+				<line>60</line>
+				<name>UCCLE CALEVOET</name>
+				<destcode>1</destcode>
+				<mode>B</mode>
+			</destination>
+		</destinations>
+	</halt>
+</halts>
+
+GET /api/getwaitingtimes.php?1=1&line=60&mode=B&iti=1&halt=2771&lang=fr&rnd=768258427 HTTP/1.1\\r\\n
+
+<waitingtimes>
+	<stopname>GROELSTVELD</stopname>
+	<position>
+		<latitude>50.78991</latitude>
+		<longitude>4.33881</longitude>
+	</position>
+	<waitingtime>
+		<line>60</line>
+		<mode>B</mode>
+		<minutes>12</minutes>
+		<destination>UCCLE CALEVOET</destination>
+		<message/>
+	</waitingtime>
+	<waitingtime>
+		<line>60</line>
+		<mode>B</mode>
+		<minutes>29</minutes>
+		<destination>UCCLE CALEVOET</destination>
+		<message/>
+	</waitingtime>
+</waitingtimes>
+
+GET /api/getschedule.php?1=1&line=60&mode=B&iti=1&halt=2771&lang=fr HTTP/1.1\\r\\n
+<schedules><schedule><hour>5</hour><minutes><minute>28</minute><minute>48</minute></minutes></schedule><schedule><hour>6</hour><minutes><minute>06</minute><minute>23</minute><minute>36</minute><minute>47</minute><minute>49</minute></minutes></schedule><schedule><hour>7</hour><minutes><minute>03</minute><minute>12</minute><minute>15</minute><minute>26</minute><minute>33</minute><minute>34</minute><minute>46</minute><minute>49</minute></minutes></schedule><schedule><hour>8</hour><minutes><minute>00</minute><minute>12</minute><minute>26</minute><minute>37</minute><minute>48</minute><minute>57</minute></minutes></schedule><schedule><hour>9</hour><minutes><minute>06</minute><minute>14</minute><minute>23</minute><minute>32</minute><minute>41</minute><minute>51</minute></minutes></schedule><schedule><hour>10</hour><minutes><minute>01</minute><minute>10</minute><minute>20</minute><minute>30</minute><minute>40</minute><minute>49</minute></minutes></schedule><schedule><hour>11</hour><minutes><minute>01</minute><minute>13</minute><minute>26</minute><minute>40</minute><minute>51</minute></minutes></schedule><schedule><hour>12</hour><minutes><minute>02</minute><minute>14</minute><minute>27</minute><minute>39</minute><minute>51</minute></minutes></schedule><schedule><hour>13</hour><minutes><minute>03</minute><minute>15</minute><minute>27</minute><minute>39</minute><minute>51</minute></minutes></schedule><schedule><hour>14</hour><minutes><minute>03</minute><minute>15</minute><minute>27</minute><minute>39</minute><minute>51</minute></minutes></schedule><schedule><hour>15</hour><minutes><minute>03</minute><minute>15</minute><minute>19</minute><minute>28</minute><minute>41</minute><minute>53</minute></minutes></schedule><schedule><hour>16</hour><minutes><minute>06</minute><minute>10</minute><minute>22</minute><minute>35</minute><minute>45</minute><minute>54</minute></minutes></schedule><schedule><hour>17</hour><minutes><minute>04</minute><minute>14</minute><minute>23</minute><minute>34</minute><minute>44</minute><minute>53</minute></minutes></schedule><schedule><hour>18</hour><minutes><minute>03</minute><minute>13</minute><minute>23</minute><minute>33</minute><minute>44</minute><minute>54</minute></minutes></schedule><schedule><hour>19</hour><minutes><minute>04</minute><minute>14</minute><minute>23</minute><minute>32</minute><minute>40</minute><minute>51</minute></minutes></schedule><schedule><hour>20</hour><minutes><minute>00</minute><minute>11</minute><minute>25</minute><minute>42</minute><minute>59</minute></minutes></schedule><schedule><hour>21</hour><minutes><minute>13</minute><minute>32</minute><minute>52</minute></minutes></schedule><schedule><hour>22</hour><minutes><minute>12</minute><minute>32</minute><minute>53</minute></minutes></schedule><schedule><hour>23</hour><minutes><minute>12</minute><minute>29</minute><minute>49</minute></minutes></schedule><schedule><hour>0</hour><minutes><minute>09</minute><minute>29</minute></minutes></schedule><notes/></schedules>
+

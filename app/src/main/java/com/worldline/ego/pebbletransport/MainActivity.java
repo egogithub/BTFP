@@ -19,8 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import com.worldline.ego.pebbletransport.NearbyFragment.OnListFragmentInteractionListener;
+import com.worldline.ego.pebbletransport.dummy.DummyContent;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -89,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+        System.out.println("Clicked on Item");
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -147,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             if (position == 0) {
-                return NearbyFragment.newInstance("Nearby", "Test");
+                return NearbyFragment.newInstance(1);
             } else {
                 return PlaceholderFragment.newInstance(position + 1);
 
