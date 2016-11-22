@@ -1,14 +1,17 @@
 package com.worldline.ego.pebbletransport;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.worldline.ego.pebbletransport.NearbyFragment.OnListFragmentInteractionListener;
 import com.worldline.ego.pebbletransport.dummy.DummyContent.DummyItem;
 import com.worldline.ego.pebbletransport.pojo.ItiStop;
+import com.worldline.ego.pebbletransport.utils.HaversineAlgorithm;
 
 import java.util.List;
 
@@ -21,10 +24,15 @@ public class MyNearbyRecyclerViewAdapter extends RecyclerView.Adapter<MyNearbyRe
 
     private final List<ItiStop> mValues;
     private final OnListFragmentInteractionListener mListener;
+    private double mLatitude;
+    private double mLongitude;
 
-    public MyNearbyRecyclerViewAdapter(List<ItiStop> stops, OnListFragmentInteractionListener listener) {
-        mValues = stops;
-        mListener = listener;
+    public MyNearbyRecyclerViewAdapter(List<ItiStop> stops, double latitude, double longitude,OnListFragmentInteractionListener listener) {
+        this.mLatitude=latitude;
+        this.mLongitude=longitude;
+        this.mValues = stops;
+        this.mListener = listener;
+        Log.d("RecyclerViewAdapter", "mValues.size = "+mValues.size());
     }
 
     @Override
@@ -37,8 +45,9 @@ public class MyNearbyRecyclerViewAdapter extends RecyclerView.Adapter<MyNearbyRe
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+//        holder.mIdView.setText(mValues.get(position).id);
+        holder.mDistanceView.setText("("+HaversineAlgorithm.HaversineInM(mLatitude, mLongitude, mValues.get(position).latitude, mValues.get(position).longitude)+"m)");
+        holder.mContentView.setText(mValues.get(position).getStopName());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,15 +68,17 @@ public class MyNearbyRecyclerViewAdapter extends RecyclerView.Adapter<MyNearbyRe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
+        public final TextView mDistanceView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public final ListView mLinesView;
+        public ItiStop mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mContentView = (TextView) view.findViewById(R.id.stopname);
+            mDistanceView = (TextView) view.findViewById(R.id.distance);
+            mLinesView = (ListView) view.findViewById(R.id.lineslist);
         }
 
         @Override
@@ -75,4 +86,6 @@ public class MyNearbyRecyclerViewAdapter extends RecyclerView.Adapter<MyNearbyRe
             return super.toString() + " '" + mContentView.getText() + "'";
         }
     }
+
+
 }

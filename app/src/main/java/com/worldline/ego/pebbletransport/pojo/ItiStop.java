@@ -9,7 +9,7 @@ import java.util.List;
 public class ItiStop extends Stop {
     public List<Destination> dest;
 
-    public ItiStop(int id, String name, float latitude, float longitude, List<Destination> dest) {
+    public ItiStop(int id, String name, double latitude, double longitude, List<Destination> dest) {
         super(id, name, latitude, longitude);
         this.dest=dest;
     }

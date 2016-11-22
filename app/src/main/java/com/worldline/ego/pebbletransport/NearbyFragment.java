@@ -1,20 +1,24 @@
 package com.worldline.ego.pebbletransport;
 
 import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.worldline.ego.pebbletransport.dummy.DummyContent;
-import com.worldline.ego.pebbletransport.dummy.DummyContent.DummyItem;
 import com.worldline.ego.pebbletransport.helpers.NearbyStopHelper;
+import com.worldline.ego.pebbletransport.pojo.ItiStop;
 
 import java.util.List;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * A fragment representing a list of Items.
@@ -22,13 +26,18 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class NearbyFragment extends Fragment {
+public class NearbyFragment extends Fragment implements LocationListener{
 
     // TODO: Customize parameter argument names
+    private static final String msg = "NearbyFragment";
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String ARG_LATITUDE = "latitude";
+    private static final String ARG_LONGITUDE = "longitude";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private double mLatitude = 0.0;
+    private double mLongitude = 0.0;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -39,10 +48,11 @@ public class NearbyFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static NearbyFragment newInstance(int columnCount) {
+    public static NearbyFragment newInstance(double latitude, double longitude) {
         NearbyFragment fragment = new NearbyFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putDouble(ARG_LATITUDE, latitude);
+        args.putDouble(ARG_LONGITUDE, longitude);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,8 +62,14 @@ public class NearbyFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            mLatitude = getArguments().getDouble(ARG_LATITUDE);
+            mLongitude = getArguments().getDouble(ARG_LONGITUDE);
+            Log.d(msg, "Latitude = "+mLatitude);
+            Log.d(msg, "Longitude = "+mLongitude);
+
+//            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+        //mLocationService = LocationService.getLocationManager(getActivity());
     }
 
     @Override
@@ -70,7 +86,7 @@ public class NearbyFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyNearbyRecyclerViewAdapter(NearbyStopHelper.getNearbyStops(), mListener));
+            recyclerView.setAdapter(new MyNearbyRecyclerViewAdapter(NearbyStopHelper.getNearbyStops(mLatitude, mLongitude), mLatitude, mLongitude, mListener));
         }
         return view;
     }
@@ -93,6 +109,26 @@ public class NearbyFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -105,6 +141,6 @@ public class NearbyFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(ItiStop item);
     }
 }

@@ -7,10 +7,10 @@ package com.worldline.ego.pebbletransport.pojo;
 public class Stop {
     public String stopName;
     public int id;
-    public float latitude;
-    public float longitude;
+    public double latitude;
+    public double longitude;
 
-    Stop (int id, String name, float latitude, float longitude) {
+    Stop (int id, String name, double latitude, double longitude) {
         this.stopName=name;
         this.id=id;
         this.latitude=latitude;

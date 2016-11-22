@@ -59,6 +59,7 @@ public class NbStopsXmlParser {
                 skip(parser);
             }
         }
+        Log.d(msg, "There are "+entries.size()+" entries");
         return entries;
     }
 
@@ -67,8 +68,8 @@ public class NbStopsXmlParser {
         int id = 0;
         String stopName = null;
         Boolean present = false;
-        float latitude = 0;
-        float longitude = 0;
+        double latitude = 0;
+        double longitude = 0;
         List<Destination> destList=null;
 
         while (parser.next() != XmlPullParser.END_TAG) {
@@ -85,7 +86,7 @@ public class NbStopsXmlParser {
             } else if (name.equals("longitude")) {
                 longitude = readFloatVal(parser, "longitude");
             } else if (name.equals("destinations")) {
-                destList = readDestinations(parser, "destinatsions");
+                destList = readDestinations(parser, "destinations");
             } else {
                 skip(parser);
             }
@@ -155,8 +156,8 @@ public class NbStopsXmlParser {
         return result;
     }
 
-    private static Float readFloatVal(XmlPullParser parser, String tag) throws XmlPullParserException, IOException {
-        float result = 0;
+    private static double readFloatVal(XmlPullParser parser, String tag) throws XmlPullParserException, IOException {
+        double result = 0;
         parser.require(XmlPullParser.START_TAG, ns, tag);
         String strResult = readText(parser);
         result = Float.parseFloat(strResult);

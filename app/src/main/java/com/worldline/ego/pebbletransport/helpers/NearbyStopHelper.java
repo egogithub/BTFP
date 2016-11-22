@@ -1,5 +1,11 @@
 package com.worldline.ego.pebbletransport.helpers;
 
+import android.util.Log;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
@@ -24,7 +30,7 @@ public class NearbyStopHelper {
     private static final boolean USE_PROXY = false;
     private static final String PROXY_HOST = "bcproxynew.extsec.banksys.be";
     private static final int PROXY_PORT = 8080;
-    private static final boolean USE_PROXY_AUTHENTICATION = true;
+    private static final boolean USE_PROXY_AUTHENTICATION = false;
     private static final String PROXY_USERNAME = "training10";
     private static final String PROXY_PASSWORD = "Student10/";
 
@@ -32,14 +38,17 @@ public class NearbyStopHelper {
     private float latitude = 0;
     private float longitude = 0;
 
-    public static List<ItiStop> getNearbyStops() {
+    public static List<ItiStop> getNearbyStops(double latitude, double longitude) {
 
         // TODO. Get the values from current location
-        float latitude=50.789339f;
-        float longitude=4.34064f;
+        //float latitude=50.789339f;
+        //float longitude=4.34064f;
 
+        Log.d("NearbyStopHelper", "Latitude="+latitude+", Longitude="+longitude);
         //TODO. Get this from settings
         String lang="fr";
+
+        Log.d("NearbyStopHelper", "Getting nearby stops list");
 
         String httpUrlString = URL_STREAM_GET_CLOSE_STOPS+"&latitude="+latitude+"&longitude="+longitude+"&lang="+lang;
         try {
@@ -56,10 +65,19 @@ public class NearbyStopHelper {
 
             if(responseCode == 200) { //OK
                 String type = connection.getContentType();
-                return NbStopsXmlParser.parse(new GZIPInputStream(connection.getInputStream()));
+                Log.d("NearbyStopHelper", "Content Type = "+type);
+                String encoding = connection.getContentEncoding();
+                Log.d("NearbyStopHelper", "Content Encoding = "+encoding);
+                if (encoding.equals("gzip")) {
+                    //dumpContent(connection);
+                    return NbStopsXmlParser.parse(new GZIPInputStream(connection.getInputStream()));
+                } else {
+                    return NbStopsXmlParser.parse(connection.getInputStream());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d("NearbyStopHelper", "Failed to get nearby stops list");
         }
         return null;
     }
@@ -83,4 +101,17 @@ public class NearbyStopHelper {
         }
     }
 
+    private static void dumpContent(final HttpURLConnection connection) {
+        try {
+            BufferedReader inputReader = new BufferedReader(new InputStreamReader(new GZIPInputStream(connection.getInputStream()), "UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            String inline;
+            while ((inline = inputReader.readLine()) != null) {
+                sb.append(inline);
+            }
+            Log.d("NearbyStopHelper", sb.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
