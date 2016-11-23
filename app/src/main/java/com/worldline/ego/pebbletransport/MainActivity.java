@@ -31,11 +31,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.worldline.ego.pebbletransport.NearbyFragment.OnListFragmentInteractionListener;
+import com.worldline.ego.pebbletransport.NearbyFragment;
+import com.worldline.ego.pebbletransport.LinesFragment;
 import com.worldline.ego.pebbletransport.dummy.DummyContent;
 import com.worldline.ego.pebbletransport.pojo.ItiStop;
 
-public class MainActivity extends AppCompatActivity implements OnListFragmentInteractionListener, LocationListener {
+public class MainActivity extends AppCompatActivity implements NearbyFragment.OnListFragmentInteractionListener, LinesFragment.OnListFragmentInteractionListener, LocationListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -118,14 +119,6 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
         Log.d("main", "Location changed");
         this.mLatitude=location.getLatitude();
         this.mLongitude=location.getLongitude();
-        // FIXME
-        /*
-        TextView latitudeText = (TextView)findViewById(R.id.latitudeText);
-        TextView longitudeText = (TextView)findViewById(R.id.longitudeText);
-
-        latitudeText.setText(String.valueOf(location.getLatitude()));
-        longitudeText.setText(String.valueOf(location.getLongitude()));
-        */
     }
 
     /**
@@ -248,6 +241,11 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
         System.out.println("Clicked on Item");
     }
 
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+        System.out.println("Clicked on Item"+item.lineid);
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -307,9 +305,10 @@ public class MainActivity extends AppCompatActivity implements OnListFragmentInt
             // Return a PlaceholderFragment (defined as a static inner class below).
             if (position == 0) {
                 return NearbyFragment.newInstance(mLatitude, mLongitude);
+            } else if (position == 1) {
+                return LinesFragment.newInstance(25);
             } else {
                 return PlaceholderFragment.newInstance(position + 1);
-
             }
         }
 
