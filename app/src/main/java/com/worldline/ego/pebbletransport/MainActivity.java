@@ -306,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements NearbyFragment.On
             if (position == 0) {
                 return NearbyFragment.newInstance(mLatitude, mLongitude);
             } else if (position == 1) {
-                return LinesFragment.newInstance(25);
+                return LinesFragment.newInstance(1);
             } else {
                 return PlaceholderFragment.newInstance(position + 1);
             }

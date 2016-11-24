@@ -10,4 +10,4 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.worldline.ego.pebbletransport.LinesFragment"
-    tools:listitem="@layout/fragment_lines" />
+    tools:listitem="@layout/fragment_lines_rel" />

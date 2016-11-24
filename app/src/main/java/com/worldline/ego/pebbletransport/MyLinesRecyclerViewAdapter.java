@@ -32,7 +32,7 @@ public class MyLinesRecyclerViewAdapter extends RecyclerView.Adapter<MyLinesRecy
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_lines, parent, false);
+                .inflate(R.layout.fragment_lines_rel, parent, false);
         return new ViewHolder(view);
     }
 

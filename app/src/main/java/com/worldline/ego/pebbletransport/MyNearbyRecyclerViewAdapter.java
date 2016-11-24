@@ -34,7 +34,12 @@ public class MyNearbyRecyclerViewAdapter extends RecyclerView.Adapter<MyNearbyRe
         this.mListener = listener;
         Log.d("RecyclerViewAdapter", "mValues.size = "+mValues.size());
     }
-
+/*
+    @Override
+    public int getItemViewType(int position){
+        if (mValues.get(position).)
+    }
+*/
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -48,6 +53,9 @@ public class MyNearbyRecyclerViewAdapter extends RecyclerView.Adapter<MyNearbyRe
 //        holder.mIdView.setText(mValues.get(position).id);
         holder.mDistanceView.setText("("+HaversineAlgorithm.HaversineInM(mLatitude, mLongitude, mValues.get(position).latitude, mValues.get(position).longitude)+"m)");
         holder.mContentView.setText(mValues.get(position).getStopName());
+        if (holder.mItem.dest.size()>0) { // there are some lines in that stop
+            //
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
