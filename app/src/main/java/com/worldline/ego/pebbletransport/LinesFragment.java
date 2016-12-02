@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.worldline.ego.pebbletransport.dummy.DummyContent;
 import com.worldline.ego.pebbletransport.dummy.DummyContent.DummyItem;
+import com.worldline.ego.pebbletransport.helpers.LinesHelper;
+import com.worldline.ego.pebbletransport.pojo.TranspLine;
 
 import java.util.List;
 
@@ -69,7 +71,11 @@ public class LinesFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyLinesRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            try {
+                recyclerView.setAdapter(new MyLinesRecyclerViewAdapter(LinesHelper.getLinesList(), (MainActivity)getActivity()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return view;
     }
@@ -104,6 +110,6 @@ public class LinesFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(TranspLine item);
     }
 }

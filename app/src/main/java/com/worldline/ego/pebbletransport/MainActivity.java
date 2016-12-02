@@ -35,6 +35,7 @@ import com.worldline.ego.pebbletransport.NearbyFragment;
 import com.worldline.ego.pebbletransport.LinesFragment;
 import com.worldline.ego.pebbletransport.dummy.DummyContent;
 import com.worldline.ego.pebbletransport.pojo.ItiStop;
+import com.worldline.ego.pebbletransport.pojo.TranspLine;
 
 public class MainActivity extends AppCompatActivity implements NearbyFragment.OnListFragmentInteractionListener, LinesFragment.OnListFragmentInteractionListener, LocationListener {
 
@@ -91,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements NearbyFragment.On
                         .setAction("Action", null).show();
             }
         });
+
+        // Get the list of lines
 
         //Location Services
         LocationAvailable = false;
@@ -242,8 +245,8 @@ public class MainActivity extends AppCompatActivity implements NearbyFragment.On
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-        System.out.println("Clicked on Item"+item.lineid);
+    public void onListFragmentInteraction(TranspLine item) {
+        System.out.println("Clicked on Item"+item.id);
     }
 
     /**

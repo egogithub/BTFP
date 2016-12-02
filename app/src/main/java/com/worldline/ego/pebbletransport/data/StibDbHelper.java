@@ -11,6 +11,10 @@ import android.util.Log;
  * Created by a143210 on 23/11/2016.
  */
 public class StibDbHelper extends SQLiteOpenHelper{
+
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "transp.db";
+
     private static final String CREATE_TABLE="create table "+
             Constants.TABLE_NAME+" ("+
             Constants.KEY_ID+" integer primary key autoincrement, "+
@@ -24,7 +28,7 @@ public class StibDbHelper extends SQLiteOpenHelper{
             Constants.FG_COLOR+" text not null);";
 
     public StibDbHelper(Context context, String name, CursorFactory factory, int version) {
-        super(context, name, factory, version);
+        super(context, DATABASE_NAME, factory, DATABASE_VERSION);
     }
 
     @Override
@@ -42,7 +46,7 @@ public class StibDbHelper extends SQLiteOpenHelper{
         Log.w("TaskDBAdapter", "Upgrading from version "+oldVersion
                 +" to "+newVersion
                 +", which will destroy all old data");
-        db.execSQL("drop table if exists "+Constants.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME);
         onCreate(db);
     }
 }

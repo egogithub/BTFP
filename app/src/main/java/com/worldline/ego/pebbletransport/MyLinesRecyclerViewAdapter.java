@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.worldline.ego.pebbletransport.LinesFragment.OnListFragmentInteractionListener;
 import com.worldline.ego.pebbletransport.dummy.DummyContent;
 import com.worldline.ego.pebbletransport.dummy.DummyContent.DummyItem;
+import com.worldline.ego.pebbletransport.pojo.TranspLine;
 
 import java.util.List;
 
@@ -20,10 +21,10 @@ import java.util.List;
  */
 public class MyLinesRecyclerViewAdapter extends RecyclerView.Adapter<MyLinesRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<TranspLine> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyLinesRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyLinesRecyclerViewAdapter(List<TranspLine> items, OnListFragmentInteractionListener listener) {
         Log.d("MyLinesRecyclerViewAdap", "Creating object with "+items.size()+" items");
         mValues = items;
         mListener = listener;
@@ -40,10 +41,12 @@ public class MyLinesRecyclerViewAdapter extends RecyclerView.Adapter<MyLinesRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         Log.d("MyLinesRecyclerViewAdap", "Setting lineid at position "+position);
-        Log.d("MyLinesRecyclerViewAdap", "lineid = "+mValues.get(position).lineid);
-        holder.mLineIdView.setText(mValues.get(position).lineid);
-        holder.mDestFromView.setText(mValues.get(position).destfrom);
-        holder.mDestToView.setText(mValues.get(position).destto);
+        Log.d("MyLinesRecyclerViewAdap", "lineid = "+mValues.get(position).id);
+        Log.d("MyLinesRecyclerViewAdap", "fromdestination = "+mValues.get(position).fromdestinationfr);
+        Log.d("MyLinesRecyclerViewAdap", "todestination = "+mValues.get(position).todestinationfr);
+        holder.mLineIdView.setText(mValues.get(position).id);
+        holder.mDestFromView.setText(mValues.get(position).fromdestinationfr);
+        holder.mDestToView.setText(mValues.get(position).todestinationfr);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +70,7 @@ public class MyLinesRecyclerViewAdapter extends RecyclerView.Adapter<MyLinesRecy
         public final TextView mLineIdView;
         public final TextView mDestFromView;
         public final TextView mDestToView;
-        public DummyItem mItem;
+        public TranspLine mItem;
 
         public ViewHolder(View view) {
             super(view);
