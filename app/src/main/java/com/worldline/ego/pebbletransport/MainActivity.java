@@ -2,6 +2,7 @@ package com.worldline.ego.pebbletransport;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -33,9 +35,13 @@ import android.widget.Toast;
 
 import com.worldline.ego.pebbletransport.NearbyFragment;
 import com.worldline.ego.pebbletransport.LinesFragment;
+import com.worldline.ego.pebbletransport.dialogs.DirectionDialogFragment;
 import com.worldline.ego.pebbletransport.dummy.DummyContent;
 import com.worldline.ego.pebbletransport.pojo.ItiStop;
 import com.worldline.ego.pebbletransport.pojo.TranspLine;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NearbyFragment.OnListFragmentInteractionListener, LinesFragment.OnListFragmentInteractionListener, LocationListener {
 
@@ -247,6 +253,14 @@ public class MainActivity extends AppCompatActivity implements NearbyFragment.On
     @Override
     public void onListFragmentInteraction(TranspLine item) {
         System.out.println("Clicked on Item"+item.id);
+
+        List<String> dirItems = new ArrayList<String>();
+        dirItems.add(item.fromdestinationfr);
+        dirItems.add(item.todestinationfr);
+        CharSequence[] dirs = dirItems.toArray(new CharSequence[dirItems.size()]);
+        DirectionDialogFragment directionDialogFragment = DirectionDialogFragment.newInstance("Line "+item.id+": Mode: "+item.mode, dirs);
+        directionDialogFragment.show(getFragmentManager(), "dialog");
+
     }
 
     /**
