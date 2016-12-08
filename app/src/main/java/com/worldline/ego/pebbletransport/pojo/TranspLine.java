@@ -1,10 +1,12 @@
 package com.worldline.ego.pebbletransport.pojo;
 
+import java.io.Serializable;
+
 /**
  * Created by a143210 on 2/12/2016.
  */
 
-public class TranspLine {
+public class TranspLine implements Serializable{
     public String id;
     public String fromdestinationfr;
     public int fromdestinationid;

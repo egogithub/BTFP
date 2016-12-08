@@ -1,8 +1,10 @@
 package com.worldline.ego.pebbletransport;
 
 import android.Manifest;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -43,7 +45,9 @@ import com.worldline.ego.pebbletransport.pojo.TranspLine;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NearbyFragment.OnListFragmentInteractionListener, LinesFragment.OnListFragmentInteractionListener, LocationListener {
+public class MainActivity extends AppCompatActivity implements NearbyFragment.OnListFragmentInteractionListener,
+        LinesFragment.OnListFragmentInteractionListener, LocationListener,
+        DirectionDialogFragment.DirectionDialogListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -250,6 +254,30 @@ public class MainActivity extends AppCompatActivity implements NearbyFragment.On
         System.out.println("Clicked on Item");
     }
 
+    void onLineDirSelected(String lineNumber, String direction) {
+        //TODO
+    }
+
+    private Intent getLineActivityIntent(String id, String mode, int direction) {
+        final Intent intent = new Intent(this, ItineraryActivity.class);
+        final Bundle extras = new Bundle();
+        extras.putString("id", id);
+        extras.putString("mode", mode);
+        extras.putInt("direction", direction);
+        intent.putExtras(extras);
+        return intent;
+    }
+
+    @Override
+    public void onFromToDirectionClick(DialogFragment dialog, String id, String mode, int direction) {
+        Log.d("MainActivity", "Selected Direction "+direction);
+        // TODO: Start activity showing the line status in given direction
+        // Prepare intent (message)
+        final Intent itiIntent = getLineActivityIntent(id, mode, direction);
+        startActivity(itiIntent);
+
+    }
+
     @Override
     public void onListFragmentInteraction(TranspLine item) {
         System.out.println("Clicked on Item"+item.id);
@@ -258,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements NearbyFragment.On
         dirItems.add(item.fromdestinationfr);
         dirItems.add(item.todestinationfr);
         CharSequence[] dirs = dirItems.toArray(new CharSequence[dirItems.size()]);
-        DirectionDialogFragment directionDialogFragment = DirectionDialogFragment.newInstance("Line "+item.id+": Mode: "+item.mode, dirs);
+        DirectionDialogFragment directionDialogFragment = DirectionDialogFragment.newInstance(item.id,item.mode, dirs);
         directionDialogFragment.show(getFragmentManager(), "dialog");
 
     }
