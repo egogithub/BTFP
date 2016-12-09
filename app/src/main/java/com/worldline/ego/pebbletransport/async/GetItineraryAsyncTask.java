@@ -24,6 +24,7 @@ public class GetItineraryAsyncTask extends AsyncTask<String, Void, List<Itinerar
     @Override
     protected List<ItineraryStop> doInBackground(String... params) {
         if ((null != params) && (params.length > 0)) {
+            Log.d("GetItineraryAsyncTask", "Getting itinerary with direction = "+params[1]);
             return ItineraryHelper.getItinerary(params[0], params[1]);
         }
         return null;

@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -19,7 +20,7 @@ import com.worldline.ego.pebbletransport.interfaces.ItineraryUpdateListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItineraryActivity extends AppCompatActivity implements ItineraryUpdateListener {
+public class ItineraryActivity extends AppCompatActivity implements ItineraryUpdateListener, AdapterView.OnItemClickListener {
     String lineNumber = "4";
     String direction = "1"; // 1 or 2
     String mode = "B";
@@ -40,12 +41,13 @@ public class ItineraryActivity extends AppCompatActivity implements ItineraryUpd
             final Bundle extras = intent.getExtras();
             if (null != extras) {
                 if (extras.containsKey("id"))
-                    lineNumber = extras.getString("id");
+                    this.lineNumber = extras.getString("id");
                 if (extras.containsKey("mode")) {
-                    mode = extras.getString("mode");
+                    this.mode = extras.getString("mode");
                 }
                 if (extras.containsKey("direction")) {
-                    direction = String.valueOf(extras.getInt("direction"));
+                    this.direction = String.valueOf(extras.getInt("direction"));
+                    Log.d("ItineraryAct", "direction = "+direction);
                 }
             }
         }
@@ -53,6 +55,7 @@ public class ItineraryActivity extends AppCompatActivity implements ItineraryUpd
         mainListView = (ListView) findViewById(R.id.list);
         listAdapter = new ItineraryListAdapter(context, stopslist);
         mainListView.setAdapter(listAdapter);
+        mainListView.setOnItemClickListener(this);
         ImageButton refreshButton = (ImageButton)findViewById(R.id.imageButton);
         taskHandler = new Handler();
         refreshButton.setOnClickListener(new View.OnClickListener(){
@@ -83,18 +86,19 @@ public class ItineraryActivity extends AppCompatActivity implements ItineraryUpd
     public Runnable refreshTask = new Runnable() {
         @Override
         public void run() {
+            Log.d("ItineraryActivity", "refreshing with direction = "+direction);
             new GetItineraryAsyncTask(itineraryListener).execute(lineNumber, direction);
             taskHandler.postDelayed(this, REFRESH_TIME);
         }
     };
 
     public void onRefreshClick(View view) {
-        Log.d("MainActivity", "Refreshing list");
+        Log.d("ItineraryActivity", "Refreshing list");
         new GetItineraryAsyncTask(this).execute(lineNumber, direction);
     }
 
     public void onItineraryUpdate(List<ItineraryStop> stopslist) {
-        Log.d("MainActivity", "List contains " + stopslist.size() + " entries");
+        Log.d("ItineraryActivity", "List contains " + stopslist.size() + " entries");
         //dumpList(stopslist);
         listAdapter.updateResults(stopslist);
     }
@@ -108,6 +112,15 @@ public class ItineraryActivity extends AppCompatActivity implements ItineraryUpd
     @Override
     public void onStop() {
         super.onStop();
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.d("ItineraryActivity", "Clicked on position "+position+", id "+id);
+        ItineraryStop stop = (ItineraryStop) parent.getItemAtPosition(position);
+        Log.d("ItineraryActivity", "id = "+stop.getId()+", Name = "+stop.getName());
+        //TODO: Launch waiting time activity with Line number, Destination sop as title and current stop name
 
     }
 }

@@ -253,17 +253,18 @@ public class MainActivity extends AppCompatActivity implements NearbyFragment.On
     public void onListFragmentInteraction(ItiStop item) {
         System.out.println("Clicked on Item");
     }
-
+/*
     void onLineDirSelected(String lineNumber, String direction) {
         //TODO
     }
-
+*/
     private Intent getLineActivityIntent(String id, String mode, int direction) {
         final Intent intent = new Intent(this, ItineraryActivity.class);
         final Bundle extras = new Bundle();
         extras.putString("id", id);
         extras.putString("mode", mode);
-        extras.putInt("direction", direction);
+        Log.v("MainActivity", "Preparing intent with direction = "+direction);
+        extras.putInt("direction", direction+1);
         intent.putExtras(extras);
         return intent;
     }
@@ -271,8 +272,6 @@ public class MainActivity extends AppCompatActivity implements NearbyFragment.On
     @Override
     public void onFromToDirectionClick(DialogFragment dialog, String id, String mode, int direction) {
         Log.d("MainActivity", "Selected Direction "+direction);
-        // TODO: Start activity showing the line status in given direction
-        // Prepare intent (message)
         final Intent itiIntent = getLineActivityIntent(id, mode, direction);
         startActivity(itiIntent);
 
@@ -325,13 +324,6 @@ public class MainActivity extends AppCompatActivity implements NearbyFragment.On
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
-/*
-
-        public interface OnFragmentInteractionListener {
-            // TODO: Update argument type and name
-            void onFragmentInteraction(Uri uri);
-        }
-*/
     }
 
     /**

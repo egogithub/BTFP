@@ -1,5 +1,7 @@
 package com.worldline.ego.pebbletransport.helpers;
 
+import android.util.Log;
+
 import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
@@ -25,6 +27,7 @@ public class ItineraryHelper {
     private static final String URL_STREAM_GET_ITINERARY = "http://m.stib.be/api/getitinerary.php?1=1";
     /* retrieve itinerary from the host */
     public static List<ItineraryStop> getItinerary(String lineNumber, String direction) {
+        Log.d("ItineraryHelper", "Getting stops for lineNumber "+lineNumber+" direction "+direction);
         String mode="B";
         String lang="fr";
         String rnd="399527036";
