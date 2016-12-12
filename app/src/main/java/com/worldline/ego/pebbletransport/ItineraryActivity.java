@@ -121,6 +121,13 @@ public class ItineraryActivity extends AppCompatActivity implements ItineraryUpd
         ItineraryStop stop = (ItineraryStop) parent.getItemAtPosition(position);
         Log.d("ItineraryActivity", "id = "+stop.getId()+", Name = "+stop.getName());
         //TODO: Launch waiting time activity with Line number, Destination sop as title and current stop name
-
+        final Bundle extras = new Bundle();
+        extras.putString("line", ""+lineNumber);
+        extras.putString("mode", mode);
+        extras.putString("dir", direction);
+        extras.putInt("stopid", stop.getId());
+        final Intent intent = new Intent(this, WaitingTimeActivity.class);
+        intent.putExtras(extras);
+        startActivity(intent);
     }
 }

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.worldline.ego.pebbletransport.dummy.DummyContent;
 import com.worldline.ego.pebbletransport.dummy.DummyContent.DummyItem;
 import com.worldline.ego.pebbletransport.helpers.WaitingTimeHelper;
+import com.worldline.ego.pebbletransport.pojo.WaitingTime;
 
 import java.util.List;
 
@@ -45,14 +46,15 @@ public class RealtimeFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static RealtimeFragment newInstance(String lineNumber, String transportMode, String direction,
-                                               String destination, int stopId) {
+//    public static RealtimeFragment newInstance(String lineNumber, String transportMode, String direction,
+//                                               String destination, int stopId) {
+    public static RealtimeFragment newInstance(String lineNumber, String transportMode, String direction, int stopId) {
         RealtimeFragment fragment = new RealtimeFragment();
         Bundle args = new Bundle();
         args.putString("line", lineNumber);
         args.putString("mode", transportMode);
         args.putString("dir", direction);
-        args.putString("dest", destination);
+        //args.putString("dest", destination);
         args.putInt("stopid", stopId);
         fragment.setArguments(args);
         return fragment;
@@ -66,7 +68,7 @@ public class RealtimeFragment extends Fragment {
             mLineNumber = getArguments().getString("line");
             mTransportMode = getArguments().getString("mode");
             mDirection = getArguments().getString("dir");
-            mDestination = getArguments().getString("dest");
+            //mDestination = getArguments().getString("dest");
             mStopId = getArguments().getInt("stopid");
         }
     }
@@ -120,6 +122,6 @@ public class RealtimeFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(WaitingTime item);
     }
 }

@@ -1,5 +1,6 @@
 package com.worldline.ego.pebbletransport;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +21,10 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class WaitingTimeActivity extends AppCompatActivity {
+import com.worldline.ego.pebbletransport.pojo.TranspLine;
+import com.worldline.ego.pebbletransport.pojo.WaitingTime;
+
+public class WaitingTimeActivity extends AppCompatActivity implements RealtimeFragment.OnListFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -28,8 +33,15 @@ public class WaitingTimeActivity extends AppCompatActivity {
      * loaded fragment in memory. If this becomes too memory intensive, it
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+     *
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    private String mLineNumber="";
+    private String mTransportMode="";
+    private String mDirection="";
+    //private String mDestination="";
+    private int mStopId=0;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -46,6 +58,14 @@ public class WaitingTimeActivity extends AppCompatActivity {
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        final Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        mLineNumber = extras.getString("line");
+        mTransportMode = extras.getString("mode");
+        mDirection = extras.getString("dir");
+        //mDestination = extras.getString("dest");
+        mStopId = extras.getInt("stopid");
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -86,6 +106,11 @@ public class WaitingTimeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onListFragmentInteraction(WaitingTime item) {
+        Log.d("WTActivity", "Clicked on Item "+ item.line);
     }
 
     /**
@@ -138,7 +163,9 @@ public class WaitingTimeActivity extends AppCompatActivity {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             if (position == 0) {
-                return RealtimeFragment.newInstance(1);
+//                return RealtimeFragment.newInstance(mLineNumber, mTransportMode, mDirection,
+//                        mDestination, mStopId);
+                return RealtimeFragment.newInstance(mLineNumber, mTransportMode, mDirection, mStopId);
             } else {
                 return PlaceholderFragment.newInstance(position + 1);
             }

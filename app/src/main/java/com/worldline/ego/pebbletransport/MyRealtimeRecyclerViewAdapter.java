@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.worldline.ego.pebbletransport.ItemFragment.OnListFragmentInteractionListener;
-import com.worldline.ego.pebbletransport.dummy.DummyContent.DummyItem;
 import com.worldline.ego.pebbletransport.pojo.WaitingTime;
 import com.worldline.ego.pebbletransport.pojo.WaitingTimeStop;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -21,9 +21,9 @@ import java.util.List;
 public class MyRealtimeRecyclerViewAdapter extends RecyclerView.Adapter<MyRealtimeRecyclerViewAdapter.ViewHolder> {
 
     private final List<WaitingTime> mValues;
-    private final OnListFragmentInteractionListener mListener;
+    private final RealtimeFragment.OnListFragmentInteractionListener mListener;
 
-    public MyRealtimeRecyclerViewAdapter(WaitingTimeStop waitingTimes, OnListFragmentInteractionListener listener) {
+    public MyRealtimeRecyclerViewAdapter(WaitingTimeStop waitingTimes, RealtimeFragment.OnListFragmentInteractionListener listener) {
         mValues = waitingTimes.getWaitingTimes();
         mListener = listener;
     }
@@ -31,15 +31,16 @@ public class MyRealtimeRecyclerViewAdapter extends RecyclerView.Adapter<MyRealti
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_item, parent, false);
+                .inflate(R.layout.fragment_realtime, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mIdView.setText(mValues.get(position).line);
+        holder.mDestToView.setText(mValues.get(position).destination);
+        holder.mTimeLeftView.setText(""+mValues.get(position).minutes);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,19 +62,21 @@ public class MyRealtimeRecyclerViewAdapter extends RecyclerView.Adapter<MyRealti
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final TextView mDestToView;
+        public final TextView mTimeLeftView;
+        public WaitingTime mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mDestToView = (TextView) view.findViewById(R.id.destto);
+            mTimeLeftView = (TextView) view.findViewById(R.id.timeleft);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mIdView.getText() + "'";
         }
     }
 }

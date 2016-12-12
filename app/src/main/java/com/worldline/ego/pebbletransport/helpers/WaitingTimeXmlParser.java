@@ -104,8 +104,8 @@ public class WaitingTimeXmlParser {
                 continue;
             }
             String name = parser.getName();
-            if (name.equals("name")) {
-                line = readTextVal(parser, "name");
+            if (name.equals("line")) {
+                line = readTextVal(parser, "line");
             } else if (name.equals("mode")) {
                 mode = readTextVal(parser, "mode");
             } else if (name.equals("minutes")) {
